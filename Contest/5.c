@@ -6,16 +6,12 @@
 
 typedef struct list {
 	int val;
-	int shoulddel;
 	struct list* np;
 }list;
 
 list* newlist(int value);
 list* add(int value, list* prevp);
 void printlist(list* temp);
-void deleteitem(list* prev, list* delv);
-void marktodel(list* tmp, int len);
-list* deletemarked(list* first);
 list* reverserows(list* tmp);
 
 int main() {
@@ -105,43 +101,6 @@ void printlist(list* temp) {
 		printf("NULL");
 }
 
-void deleteitem(list* prev, list* delv) {
-	prev->np = delv->np;
-	free(delv);
-}
-
-void marktodel(list* tmp, int len) {
-	list* curr = tmp;
-	for (int i = 1; i <= len; i++) {
-		if (i % 2 != 0 && (curr->val) % 2 == 0) {
-			curr->shoulddel = 1;
-		}
-		curr = curr->np;
-	}
-}
-
-list* deletemarked(list* first) {
-	list* head = first;
-	list* prev = NULL;
-	while (first) {
-		if (first->shoulddel) {
-			if (prev == NULL) {
-				head = head->np;
-				free(first);
-				first = head;
-			}
-			else {
-				first = first->np;
-				deleteitem(prev, prev->np);
-			}
-		}
-		else {
-			prev = first;
-			first = first->np;
-		}
-	}
-	return head;
-}
 list* reverserows(list* tmp) {
 	int first = 1;
 	list* prev = tmp;
