@@ -6,13 +6,15 @@
 
 typedef struct list {
 	int val;
+	int shoulddel; //не используется
 	struct list* np;
 }list;
 
-list* newlist(int value);
-list* add(int value, list* prevp);
-void printlist(list* temp);
-list* reverserows(list* tmp);
+list* newlist(int value); //создание заглавного элемента списка
+list* add(int value, list* prevp); //добавление в список
+void printlist(list* temp); //вывод списка
+void deleteitem(list* prev, list* delv); //удаление элемента списка (передается предыдущий элемент и тот, который надо удалить)
+list* reverserows(list* tmp); //Переворот списка
 
 int main() {
 	int chislo, a, numoflist = 0;
@@ -47,8 +49,6 @@ int main() {
 	}
 	
 	if (first) {
-		//marktodel(first, numoflist + 1);
-		//first = deletemarked(first);
 		printlist(reverserows(first));
 	}
 	
@@ -59,7 +59,6 @@ list* newlist(int value) {
 	if (tmp) {
 		tmp->np = NULL;
 		tmp->val = value;
-		tmp->shoulddel = 0;
 		return tmp;
 	}
 	else
@@ -72,7 +71,6 @@ list* add(int value, list* prevp) {
 		prevp->np = tmp;
 		tmp->val = value;
 		tmp->np = NULL;
-		tmp->shoulddel = 0;
 		return tmp;
 	}
 	else
@@ -99,6 +97,11 @@ void printlist(list* temp) {
 	}
 	if (!wp)
 		printf("NULL");
+}
+
+void deleteitem(list* prev, list* delv) {
+	prev->np = delv->np;
+	free(delv);
 }
 
 list* reverserows(list* tmp) {
